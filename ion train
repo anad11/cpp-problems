@@ -1,5 +1,45 @@
-main (); 
+# include <iostream>
+# include <cstdlib> 
+# include <fstream>
 
-hi brandon 
+using namespace std;
+int main ()
+{
 
-https://prod.liveshare.vsengsaas.visualstudio.com/join?F97FEDA1A2FFCD2DB01201C0E205527171E2
+    ifstream Times("ION_time.txt");
+        if(!Times)
+        {
+            cout<<"Unable to open file";
+            return EXIT_FAILURE;
+        }
+
+    
+    const int MEASUREMENTS = 15;
+    int direction=0, wait=0, preWait=0, totalWait=0, longestWait=0, nWaits=0; 
+    
+	while (Times >> direction)
+    {
+        preWait=0;
+        
+		for (int nm=1; nm <= MEASUREMENTS; nm++)
+        {
+            Times >> wait; 
+
+            if (direction==1 && ((wait - preWait)>longestWait))
+            
+            {
+                longestWait = wait - preWait;
+            }
+            
+            totalWait += (wait - preWait);
+            nWaits++;
+            preWait=wait;
+
+        }
+    }
+
+	cout << "Average wait: " << ((double)totalWait)/nWaits << endl
+         << "Longest northbound wait: " << longestWait;
+
+    return EXIT_SUCCESS;
+}
