@@ -1,0 +1,46 @@
+#include<iostream>
+#include<cstdlib>
+#include<fstream>
+#include<cmath>
+
+using namespace std;
+
+int main ()
+{
+
+    ifstream movie("movie.txt");
+    string mname = "default", lname = "lowest";
+    const int REWATCH = 10;
+    int rating = 0, srating = 0;
+    double arating = 0.0, lrating = 5.1;
+
+    while (movie >> mname)
+    {
+        srating = 0;
+        for (int nratings=1 ; nratings <= REWATCH ; nratings++)
+        {
+            movie >> rating;
+            srating += rating;
+        }
+
+        arating = ((double)srating)/REWATCH;
+        if (arating<lrating)
+        {
+            lrating=arating;
+            lname=mname;
+        }
+        
+		cout << mname << "   ";
+        for (int stars=1 ; stars <= round(arating) ; stars++)
+        {
+            cout << "*";
+        }
+        cout << endl;
+    }
+    
+    cout << "She hates " << mname << " " << lrating;
+    
+    movie.close();
+    
+	return EXIT_SUCCESS;
+}
