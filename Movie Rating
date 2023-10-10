@@ -1,1 +1,60 @@
-https://prod.liveshare.vsengsaas.visualstudio.com/join?0F6363157829D575AE20365FD57005FFF58A
+# include <iostream>
+# include <cstdlib> 
+# include <fstream>
+# include <cmath>
+
+using namespace std;
+int main ()
+{
+    ifstream movie_rating ("movie.txt"); 
+
+    string name = "", lowest_name= ""; 
+    int rating = 0;
+    int ratings_total = 0; 
+	double lowest_rating=5.1;
+    const int nratings = 10.0; 
+    string stars = "";
+
+    while (movie_rating>>name)
+    { 
+        ratings_total = 0; 
+        const int NUMBER_RATINGS = 11;
+        for (int ratings = 1; ratings<NUMBER_RATINGS; ratings++)
+        { 
+            movie_rating>>rating;
+			ratings_total += rating;
+        }
+
+        double average_rating = double(ratings_total)/nratings;
+        int rstars = round (average_rating);
+        
+        if (rstars == 1){
+        	 stars = "*";
+		}
+		if (rstars == 2){
+        	 stars = "**";
+		}
+		 if (rstars == 3){
+        	 stars = "***";
+		}
+		if (rstars == 4.0){
+        	 stars = "****";
+		}
+		if (rstars == 5.0){
+        	 stars = "*****";
+		}
+
+        cout << name << " " << stars << "\n" ; 
+            
+        if (average_rating < lowest_rating) 
+		{
+            lowest_rating=average_rating;
+            lowest_name=name;
+        }
+
+    }
+    
+    cout << "She hates " << lowest_name << " " << lowest_rating;    
+    movie_rating.close();
+    return EXIT_SUCCESS; 
+}
