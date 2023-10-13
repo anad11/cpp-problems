@@ -1,0 +1,74 @@
+
+void drive (int power, int distance)
+{
+	nMotorEncoder(motorA)=0;
+	int ddrive=(distance*(360/2*PI*2.75));
+	motor[motorA] = power;
+	motor[motorC] = power;
+	nMotorEncoder(motorA)=0;
+	while (nMotorEncoder(motorA)<=ddrive)
+	{}
+}
+
+task main()
+{
+	//set up sensors
+	sensorType[S3] = sensorEV3_Color;
+	wait1Msec(50);
+	sensorType[S3] = modeEV3Color_Color;
+	wait1Msec(50);
+
+	while (!getButtonPress(buttonAny))
+	{}
+	while (getBottonPress(buttonAny))
+	{}
+
+
+
+
+	void turn90CW (bool clockwiseDir)
+	{
+	    motor[motorA] = -25;
+	    motor[motorC] = 25;
+	    wait1Msec(50);
+	}
+
+
+	int passes = 20;
+
+	while (passes > 0)
+	{
+	    while (SensorValue[S3] != (int)colorRed)
+	    {
+	        while (SensorValue[S3] != (int)colorGreen)
+	        {
+	            motor[motorB] = 0;
+	            drive (100, 1);
+	        }
+	        while (SensorValue[S3] == (int)colorGreen)
+	        {
+	            motor[motorB] = 100;
+	            drive (100, 1);
+	        }
+	    }
+
+	    int direction = 1;
+
+	    if (direction==1)
+	    {
+	        turn90CW (1);
+	        drive (100,5);
+	        turn90CW (1);
+	    }
+
+	    if (direction==-1)
+	    {
+	        turn90CW (0);
+	        drive (100,5);
+	        turn90CW (0);
+	    }
+
+	    direction = direction*-1;
+
+	}
+}
