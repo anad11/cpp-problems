@@ -1,1 +1,66 @@
-https://prod.liveshare.vsengsaas.visualstudio.com/join?525EA69C95954550761DE45B59AA96F07DDC
+SensorType[S3]=sensorEV3_Color; 
+wait1Msec(50); 
+SensorMode[S3]=modeEV3Color_Color;
+
+
+while (!getButtonPress(buttonAny))
+{} 
+while (getBottonPress(buttonAny))
+{} 
+
+void drive (int power, int distance) 
+{ 
+    nMotorEncoder(motorA)=0;
+    ddrive=(distance*(360/2*pi*2.75)); 
+    motor[A] = motor[D] = power; 
+    nMotorEncoder(motorA)=0;  
+    while (nMotorEncoder(motorA)<=ddrive){ 
+    }
+}
+
+
+void turn90CW (bool clockwiseDir)
+{ 
+    motor[motorA] = -25; 
+    motor[motorD] = 25;
+    wait1Msec(50);
+ }
+
+
+int passes = 20;
+
+while (passes > 0)
+{
+    while (SensorValue[S3] != colourRed)
+    {
+        while (SensorValue[S3] != colourGreen)
+        {
+            motor[motorB] = 0;
+            drive (100, 1);
+        }
+        while (SensorValue[S3] == colourGreen)
+        {
+            motor[motorB] = 100;
+            drive (100, 1);
+        }
+    }
+
+    int direction = 1;
+
+    if (direction==1)
+    {
+        turn90CW (1);
+        drive (100,5);
+        turn90CW (1);    
+    }
+
+    if (direction==-1)
+    {
+        turn90CW (0);
+        drive (100,5);
+        turn90CW (0);  
+    }
+
+    direction = direction*-1; 
+    
+}
